@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Form Gudang</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+  </head>
+  <body>
+    <h2>Form Gudang Jalan Tol</h2>
+    <form id="gudangForm">
+      Nama Mandor: <input type="text" id="nama" required><br>
+      Jenis Barang:
+      <select id="barang">
+        <option>Aspal</option>
+        <option>Perkerasan</option>
+        <option>Guardrail</option>
+        <option>Rambu</option>
+        <option>Tiang</option>
+        <option>Lainnya</option>
+      </select><br>
+      Aksi:
+      <select id="aksi">
+        <option>Kirim</option>
+        <option>Ambil</option>
+      </select><br>
+      Jumlah: <input type="number" id="jumlah" required><br>
+      Ambil Foto:
+      <input type="file" accept="image/*" capture="environment" id="foto"><br><br>
+      <button type="submit">Kirim</button>
+    </form>
+
+    <script>
+      const form = document.getElementById("gudangForm");
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        // Upload foto ke hosting seperti imgur atau gunakan Google Drive API jika mau simpan ke Drive
+        const fotoFile = document.getElementById("foto").files[0];
+        let fotoUrl = "";
+
+        if (fotoFile) {
+          alert("Untuk demo ini, upload foto belum otomatis. Tapi bisa dikembangkan.");
+          // Harus disambung ke layanan hosting foto seperti Imgur atau Firebase
+        }
+
+        const payload = {
+          nama: document.getElementById("nama").value,
+          barang: document.getElementById("barang").value,
+          aksi: document.getElementById("aksi").value,
+          jumlah: document.getElementById("jumlah").value,
+          foto: fotoUrl || "Belum tersedia"
+        };
+
+        fetch("https://script.google.com/macros/s/AKfycbzBY5h5CQQR0FH61-XAwQzBBhSloYf3FDzwan3_zoHzUSbiiT0C7vldcVAQCoEjtr89ng/exec", {
+          method: "POST",
+          body: JSON.stringify(payload),
+          headers: {
+            "Content-Type": "application/json"
+          }
+        })
+          .then((res) => res.text())
+          .then((data) => {
+            alert("Data berhasil dikirim!");
+            form.reset();
+          })
+          .catch((err) => {
+            alert("Gagal mengirim data.");
+            console.error(err);
+          });
+      });
+    </script>
+  </body>
+</html>
